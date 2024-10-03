@@ -1,0 +1,46 @@
+package com.example.aplikasiadelpalingakhir
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+
+class HeroAdapter(
+    private val context: Context,
+    private val heroes: List<Hero>,
+    private val onHeroClick: (Hero) -> Unit
+) : RecyclerView.Adapter<HeroAdapter.HeroViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_hero, parent, false)
+        return HeroViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: HeroViewHolder, position: Int) {
+        val hero = heroes[position]
+        holder.bind(hero, onHeroClick)
+    }
+
+    override fun getItemCount(): Int {
+        return heroes.size
+    }
+
+    class HeroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val heroName: TextView = itemView.findViewById(R.id.hero_name)
+        private val heroDescription: TextView = itemView.findViewById(R.id.hero_description)
+        private val heroImage: ImageView = itemView.findViewById(R.id.hero_image)
+
+        fun bind(hero: Hero, onHeroClick: (Hero) -> Unit) {
+            heroName.text = hero.name
+            heroDescription.text = hero.description.slice(1..20)
+            heroImage.setImageResource(hero.imageResId)
+
+            itemView.setOnClickListener {
+                onHeroClick(hero)
+            }
+        }
+    }
+}
