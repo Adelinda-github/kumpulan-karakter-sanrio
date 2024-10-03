@@ -1,0 +1,74 @@
+package com.example.aplikasiadelpalingakhir
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
+import android.view.Menu
+import android.view.MenuItem
+import androidx.recyclerview.widget.GridLayoutManager
+
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.my_toolbar)
+        setSupportActionBar(toolbar)
+        toolbar.title = "Kumpulan Character Sanrio"
+
+
+        val heroes = listOf(
+            Hero(getString(R.string.bad_temaru), getString(R.string.bad_temaru_description), R.drawable.bad_temaru),
+            Hero(getString(R.string.charmy_kitty), getString(R.string.charmy_kitty_description), R.drawable.charmy_kitty),
+            Hero(getString(R.string.choco_cat), getString(R.string.choco_cat_description), R.drawable.choco_cat),
+            Hero(getString(R.string.cinnamon_roll), getString(R.string.cinnamon_roll_description), R.drawable.cinnamon_roll),
+            Hero(getString(R.string.hello_kitty), getString(R.string.hello_kitty_description), R.drawable.hello_kitty),
+            Hero(getString(R.string.keropi), getString(R.string.keropi_description), R.drawable.keropi),
+            Hero(getString(R.string.kiki_and_lala), getString(R.string.kiki_and_lala_description), R.drawable.kiki_and_lala),
+            Hero(getString(R.string.kuromi), getString(R.string.kuromi_description), R.drawable.kuromi),
+            Hero(getString(R.string.melody), getString(R.string.melody_description), R.drawable.melody),
+            Hero(getString(R.string.sweet_piano), getString(R.string.sweet_piano_description), R.drawable.sweet_piano)
+        )
+
+
+        val recyclerView: RecyclerView = findViewById(R.id.recycler_view_heroes)
+        recyclerView.layoutManager = GridLayoutManager(this,2)
+        recyclerView.adapter = HeroAdapter(this, heroes) { hero ->
+            // Handle hero item click, navigate to detail page
+            val intent = Intent(this, HeroDetailActivity::class.java).apply {
+                putExtra("heroName", hero.name)
+                putExtra("heroDescription", hero.description)
+                putExtra("heroImageResId", hero.imageResId)
+            }
+            startActivity(intent)
+        }
+
+
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_about -> {
+                // Open the About page when clicked
+                val intent = Intent(this, AboutActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+}
