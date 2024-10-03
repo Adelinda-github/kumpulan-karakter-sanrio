@@ -1,0 +1,1 @@
+ata class Hero(val name: String, val description: String, val imageResId: Int)
