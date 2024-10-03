@@ -1,0 +1,54 @@
+package com.example.aplikasiadelpalingakhir
+
+
+import android.os.Bundle
+import android.widget.ImageView
+import android.view.MenuItem
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
+import android.graphics.PorterDuff
+import androidx.core.content.ContextCompat
+
+class HeroDetailActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_hero_detail)
+
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_detail)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
+        supportActionBar?.title = "Hero Details"
+
+
+
+        val heroName = intent.getStringExtra("heroName") ?: "Unknown Hero"
+        val heroDescription = intent.getStringExtra("heroDescription") ?: "No Description"
+        val heroImageResId = intent.getIntExtra("heroImageResId", 0)
+
+
+        val heroNameView: TextView = findViewById(R.id.detail_hero_name)
+        val heroDescriptionView: TextView = findViewById(R.id.detail_hero_description)
+        val heroImageView: ImageView = findViewById(R.id.detail_hero_image)
+
+        heroNameView.text = heroName
+        heroDescriptionView.text = heroDescription
+        heroImageView.setImageResource(heroImageResId)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+}
